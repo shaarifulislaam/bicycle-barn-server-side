@@ -21,6 +21,7 @@ async function run() {
     await client.connect();
     const productsCollection = client.db("bicycleBarn").collection("products");
     const reviewsCollection = client.db("bicycleBarn").collection("reviews");
+    const ordersCollection = client.db("bicycleBarn").collection("orders");
 
     //*GET API or GET all product
     app.get("/products", async (req, res) => {
@@ -40,16 +41,49 @@ async function run() {
       const result = await productsCollection.insertOne(req.body);
       res.json(result);
     });
-    //*GET API or GET all product
+    //*DELETE API
+    app.delete("/products/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await productsCollection.deleteOne(query);
+      res.send(result);
+    });
+    //*GET API or GET all review
     app.get("/reviews", async (req, res) => {
       const cursor = reviewsCollection.find({});
       const reviews = await cursor.toArray();
       res.send(reviews);
     });
+
     //*ADD reviews
     app.post("/reviews", async (req, res) => {
       const result = await reviewsCollection.insertOne(req.body);
       res.json(result);
+    });
+    //* add order
+    app.post("/orders", async (req, res) => {
+      const result = await ordersCollection.insertOne(req.body);
+      console.log(result);
+      res.send(result);
+    });
+    //* get all orders
+    app.get("/orders", async (req, res) => {
+      const result = await ordersCollection.find({}).toArray();
+      res.send(result);
+    });
+    //*filter email API
+    app.get("/orders/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = await ordersCollection.find({ email });
+      const result = await query.toArray();
+      res.send(result);
+    });
+    //*DELETE Order API
+    app.delete("/orders/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await ordersCollection.deleteOne(query);
+      res.send(result);
     });
   } finally {
     // await client.close();
