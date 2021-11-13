@@ -20,27 +20,36 @@ async function run() {
   try {
     await client.connect();
     const productsCollection = client.db("bicycleBarn").collection("products");
-    //*GET API or GET Home page product
+    const reviewsCollection = client.db("bicycleBarn").collection("reviews");
+
+    //*GET API or GET all product
     app.get("/products", async (req, res) => {
       const cursor = productsCollection.find({});
       const products = await cursor.toArray();
-      // const products = await cursor.limit(3).toArray();
-      res.send(products);
-    });
-    //*GET API or GET all product
-    app.get("/allProducts", async (req, res) => {
-      const cursor = productsCollection.find({});
-      const products = await cursor.toArray();
-      // const products = await cursor.limit(3).toArray();
       res.send(products);
     });
     //*GET API for single product
     app.get("/products/:id", async (req, res) => {
       const id = req.params.id;
-      // console.log("getting specific service", id);
       const query = { _id: ObjectId(id) };
       const product = await productsCollection.findOne(query);
       res.json(product);
+    });
+    //*ADD Product
+    app.post("/products", async (req, res) => {
+      const result = await productsCollection.insertOne(req.body);
+      res.json(result);
+    });
+    //*GET API or GET all product
+    app.get("/reviews", async (req, res) => {
+      const cursor = reviewsCollection.find({});
+      const reviews = await cursor.toArray();
+      res.send(reviews);
+    });
+    //*ADD reviews
+    app.post("/reviews", async (req, res) => {
+      const result = await reviewsCollection.insertOne(req.body);
+      res.json(result);
     });
   } finally {
     // await client.close();
@@ -49,7 +58,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("Database Running!");
+  res.send("Bicycle Barn Database Running!");
 });
 
 app.listen(port, () => {
