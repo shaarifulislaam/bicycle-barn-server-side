@@ -1,18 +1,21 @@
-#Project Name : Bicycle Barn (Server side)
+#Project Name : Bicycle Barn
 
 This site live link: https://bicycle-barn.web.app/
 
 ### Description
 
-On this website, a user can log in via using google sign. If user valid authenticate person he/she manage booking and a user see their(my) booking.
+On this server site,products get , post api added in products collection , review get,post added in reviews collection. orders post ,get , put added in order collection , users get, post ,put added in users collection
 Data save on mongodb server.
 
 About the Project:
 
 - User Login system
-- Add service
-- Manage Service (delete ,update)
+- Admin Panel dashboard
+- Add product
+- Manage product (delete ,update)
+- Manage all order (delete ,update)
 - user Authentication
 - Mongodb use as server
+- Nested routing system
 - Redirect system
 - Logout system

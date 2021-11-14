@@ -105,6 +105,7 @@ async function run() {
       );
       res.send(result);
     });
+    //*Users get api
     app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
@@ -115,11 +116,15 @@ async function run() {
       }
       res.json({ admin: isAdmin });
     });
+
+    //*users post api
     app.post("/users", async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
       res.json(result);
     });
+
+    //*users put api
     app.put("/users", async (req, res) => {
       const user = req.body;
       const filter = { email: user.email };
@@ -132,6 +137,8 @@ async function run() {
       );
       res.json(result);
     });
+
+    //*users admin api
     app.put("/users/admin", async (req, res) => {
       const user = req.body;
       console.log("put", user);
