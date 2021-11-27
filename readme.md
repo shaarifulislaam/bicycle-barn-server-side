@@ -19,3 +19,13 @@ About the Project:
 - Nested routing system
 - Redirect system
 - Logout system
+
+Technology:
+
+- React
+- React-Router
+- Node.js
+- MongoDB
+- Bootstrap
+- Firebase Authentication
+- Heroku.
