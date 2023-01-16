@@ -105,6 +105,7 @@ async function run() {
       );
       res.send(result);
     });
+    
     //*Users get api
     app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
