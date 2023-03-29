@@ -2,6 +2,7 @@ const express = require("express");
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
 const ObjectId = require("mongodb").ObjectId;
+const fileUpload = require("express-fileupload")
 
 require("dotenv").config();
 const app = express();
@@ -10,6 +11,7 @@ const port = process.env.PORT || 5000;
 //middleware
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload())
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ip6hg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
@@ -40,6 +42,7 @@ async function run() {
     //*ADD Product
     app.post("/products", async (req, res) => {
       const result = await productsCollection.insertOne(req.body);
+      console.log(result)
       res.json(result);
     });
     //*DELETE API
@@ -105,7 +108,7 @@ async function run() {
       );
       res.send(result);
     });
-    
+
     //*Users get api
     app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
@@ -155,7 +158,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("Bicycle Barn Database Running!");
+  res.send("Bicycle Barn Database Running on server!");
 });
 
 app.listen(port, () => {
